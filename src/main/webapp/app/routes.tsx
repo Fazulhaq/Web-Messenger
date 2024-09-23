@@ -2,19 +2,19 @@ import React from 'react';
 import { Route, useLocation } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
-import Login from 'app/modules/login/login';
 import Register from 'app/modules/account/register/register';
 import Activate from 'app/modules/account/activate/activate';
 import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
 import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
 import Logout from 'app/modules/login/logout';
-import Home from 'app/modules/home/home';
 import EntitiesRoutes from 'app/entities/routes';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import { sendActivity } from 'app/config/websocket-middleware';
+import MyLogin from './modules/home/my-login';
+import Home from './messenger/messenger-home';
 
 const loading = <div>loading ...</div>;
 
@@ -35,8 +35,8 @@ const AppRoutes = () => {
   return (
     <div className="view-routes">
       <ErrorBoundaryRoutes>
-        <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
+        <Route index element={<MyLogin />} />
+        <Route path="home" element={<Home />} />
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route

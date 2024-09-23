@@ -32,6 +32,7 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
         activityDTO.setSessionId(stompHeaderAccessor.getSessionId());
         activityDTO.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
         activityDTO.setTime(Instant.now());
+        activityDTO.setMyName("Super Admin");
         log.debug("Sending user tracking data {}", activityDTO);
         return activityDTO;
     }

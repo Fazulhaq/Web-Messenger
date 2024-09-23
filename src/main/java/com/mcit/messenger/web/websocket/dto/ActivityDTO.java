@@ -17,6 +17,16 @@ public class ActivityDTO {
 
     private Instant time;
 
+    private String myName;
+
+    public String getMyName() {
+        return myName;
+    }
+
+    public void setMyName(String myName) {
+        this.myName = myName;
+    }
+
     public String getSessionId() {
         return sessionId;
     }

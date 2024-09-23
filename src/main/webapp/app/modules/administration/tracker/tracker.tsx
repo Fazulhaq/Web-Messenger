@@ -23,6 +23,9 @@ export const TrackerPage = () => {
             <th>
               <span>Time</span>
             </th>
+            <th>
+              <span>Monitored By</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +35,7 @@ export const TrackerPage = () => {
               <td>{activity.ipAddress}</td>
               <td>{activity.page}</td>
               <td>{activity.time}</td>
+              <td>{activity.myName}</td>
             </tr>
           ))}
         </tbody>
