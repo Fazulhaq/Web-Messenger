@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Row, Col, Alert, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -11,6 +11,7 @@ import { handleRegister, reset } from './register.reducer';
 export const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(
     () => () => {
@@ -19,8 +20,8 @@ export const RegisterPage = () => {
     [],
   );
 
-  const handleValidSubmit = ({ username, email, firstPassword }) => {
-    dispatch(handleRegister({ login: username, email, password: firstPassword, langKey: 'en' }));
+  const handleValidSubmit = ({ firstName, lastName, username, email, firstPassword }) => {
+    dispatch(handleRegister({ firstName, lastName, login: username, email, password: firstPassword, langKey: 'en' }));
   };
 
   const updatePassword = event => setPassword(event.target.value);
@@ -30,6 +31,7 @@ export const RegisterPage = () => {
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
+      navigate('/');
     }
   }, [successMessage]);
 
@@ -45,6 +47,30 @@ export const RegisterPage = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <ValidatedForm id="register-form" onSubmit={handleValidSubmit}>
+            <ValidatedField
+              name="firstName"
+              label="First Name"
+              placeholder="Your first name"
+              type="text"
+              validate={{
+                required: { value: true, message: 'Your first name is required.' },
+                minLength: { value: 3, message: 'Your first name is required to be at least 3 characters.' },
+                maxLength: { value: 254, message: 'Your first name cannot be longer than 50 characters.' },
+              }}
+              data-cy="firstName"
+            />
+            <ValidatedField
+              name="lastName"
+              label="Last Name"
+              placeholder="Your last name"
+              type="text"
+              validate={{
+                required: { value: true, message: 'Your last name is required.' },
+                minLength: { value: 3, message: 'Your last name is required to be at least 3 characters.' },
+                maxLength: { value: 254, message: 'Your last name cannot be longer than 50 characters.' },
+              }}
+              data-cy="lastName"
+            />
             <ValidatedField
               name="username"
               label="Username"
@@ -105,17 +131,6 @@ export const RegisterPage = () => {
             </Button>
           </ValidatedForm>
           <p>&nbsp;</p>
-          <Alert color="warning">
-            <span>If you want to </span>
-            <Link to="/login" className="alert-link">
-              sign in
-            </Link>
-            <span>
-              , you can try the default accounts:
-              <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;) <br />- User (login=&quot;user&quot; and
-              password=&quot;user&quot;).
-            </span>
-          </Alert>
         </Col>
       </Row>
     </div>
