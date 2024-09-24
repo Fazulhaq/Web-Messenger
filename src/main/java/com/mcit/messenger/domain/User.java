@@ -53,6 +53,10 @@ public class User extends AbstractAuditingEntity<Long> {
     @Column(length = 254, unique = true)
     private String email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
+
     @NotNull
     @Column(nullable = false)
     private boolean activated = false;
@@ -137,6 +141,14 @@ public class User extends AbstractAuditingEntity<Long> {
         this.email = email;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -218,6 +230,7 @@ public class User extends AbstractAuditingEntity<Long> {
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
+            ", status='" + status + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +

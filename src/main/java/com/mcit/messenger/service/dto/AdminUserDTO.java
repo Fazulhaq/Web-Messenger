@@ -2,6 +2,7 @@ package com.mcit.messenger.service.dto;
 
 import com.mcit.messenger.config.Constants;
 import com.mcit.messenger.domain.Authority;
+import com.mcit.messenger.domain.Status;
 import com.mcit.messenger.domain.User;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
@@ -33,6 +34,8 @@ public class AdminUserDTO implements Serializable {
     @Size(min = 5, max = 254)
     private String email;
 
+    private Status status;
+
     @Size(max = 256)
     private String imageUrl;
 
@@ -61,6 +64,7 @@ public class AdminUserDTO implements Serializable {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
+        this.status = user.getStatus();
         this.activated = user.isActivated();
         this.imageUrl = user.getImageUrl();
         this.langKey = user.getLangKey();
@@ -109,6 +113,14 @@ public class AdminUserDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getImageUrl() {
@@ -183,6 +195,7 @@ public class AdminUserDTO implements Serializable {
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
+            ", status='" + status + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
