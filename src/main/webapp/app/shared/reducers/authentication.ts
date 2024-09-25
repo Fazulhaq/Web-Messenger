@@ -17,6 +17,7 @@ export const initialState = {
   redirectMessage: null as unknown as string,
   sessionHasBeenFetched: false,
   logoutUrl: null as unknown as string,
+  successMessage: null,
 };
 
 export type AuthenticationState = Readonly<typeof initialState>;
@@ -71,7 +72,18 @@ export const clearAuthToken = () => {
   }
 };
 
-export const logout: () => AppThunk = () => dispatch => {
+export const updateUserStatus = createAsyncThunk(
+  'authentication/update_status',
+  async () => {
+    return axios.post<any>('api/account/userstatusupdate');
+  },
+  {
+    serializeError: serializeAxiosError,
+  },
+);
+
+export const logout: () => AppThunk = () => async dispatch => {
+  await dispatch(updateUserStatus());
   clearAuthToken();
   dispatch(logoutSession());
 };
@@ -146,6 +158,12 @@ export const AuthenticationSlice = createSlice({
       })
       .addCase(getAccount.pending, state => {
         state.loading = true;
+      })
+      .addCase(updateUserStatus.fulfilled, state => {
+        state.successMessage = 'You are logged out successfully.';
+      })
+      .addCase(updateUserStatus.rejected, (state, action) => {
+        state.errorMessage = action.error.message;
       });
   },
 });

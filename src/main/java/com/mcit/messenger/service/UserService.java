@@ -2,6 +2,7 @@ package com.mcit.messenger.service;
 
 import com.mcit.messenger.config.Constants;
 import com.mcit.messenger.domain.Authority;
+import com.mcit.messenger.domain.Status;
 import com.mcit.messenger.domain.User;
 import com.mcit.messenger.repository.AuthorityRepository;
 import com.mcit.messenger.repository.UserRepository;
@@ -107,6 +108,7 @@ public class UserService {
         if (userDTO.getEmail() != null) {
             newUser.setEmail(userDTO.getEmail().toLowerCase());
         }
+        newUser.setStatus(Status.OFFLINE);
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         newUser.setActivated(true);
@@ -209,7 +211,8 @@ public class UserService {
     }
 
     /**
-     * Update basic information (first name, last name, email, language) for the current user.
+     * Update basic information (first name, last name, email, language) for the
+     * current user.
      *
      * @param firstName first name of user.
      * @param lastName  last name of user.
@@ -263,9 +266,31 @@ public class UserService {
         return userRepository.findOneWithAuthoritiesByLogin(login);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<User> getUserWithAuthorities() {
+        SecurityUtils.getCurrentUserLogin()
+            .flatMap(userRepository::findOneByLogin)
+            .ifPresent(user -> {
+                user.setStatus(Status.ONLINE);
+                userRepository.save(user);
+                log.debug("Changed status for User: {}", user);
+            });
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+    }
+
+    /**
+     * Changes User Status while loggin out from system.
+     */
+
+    @Transactional
+    public void updateUserStatus() {
+        SecurityUtils.getCurrentUserLogin()
+            .flatMap(userRepository::findOneByLogin)
+            .ifPresent(user -> {
+                user.setStatus(Status.OFFLINE);
+                userRepository.save(user);
+                log.debug("Changed status for User: {}", user);
+            });
     }
 
     /**
@@ -285,6 +310,7 @@ public class UserService {
 
     /**
      * Gets a list of all the authorities.
+     *
      * @return a list of all the authorities.
      */
     @Transactional(readOnly = true)

@@ -42,7 +42,7 @@ export const MyLogin = () => {
           <div className="display-6 mt-4">Welcome to Web Messenger!</div>
         </Col>
       </Row>
-      <Row className="justify-content-center" noGutters>
+      <Row className="justify-content-center">
         <Col md="6" className="justify-content-center">
           <Form onSubmit={handleLoginSubmit}>
             <div className="mt-1">&nbsp;</div>

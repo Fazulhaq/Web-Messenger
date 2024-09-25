@@ -1,9 +1,12 @@
+import { Status } from './enumerations/status.model';
+
 export interface IUser {
   id?: any;
   login?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
+  status?: keyof typeof Status;
   activated?: boolean;
   langKey?: string;
   authorities?: any[];
@@ -20,6 +23,7 @@ export const defaultValue: Readonly<IUser> = {
   firstName: '',
   lastName: '',
   email: '',
+  status: Status.OFFLINE,
   activated: true,
   langKey: '',
   authorities: [],

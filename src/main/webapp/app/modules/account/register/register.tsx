@@ -130,7 +130,6 @@ export const RegisterPage = () => {
               Register
             </Button>
           </ValidatedForm>
-          <p>&nbsp;</p>
         </Col>
       </Row>
     </div>
