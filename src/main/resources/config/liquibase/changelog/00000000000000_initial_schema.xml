@@ -61,7 +61,32 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-
+        <createTable tableName="chat_room">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="chat_id" type="varchar(50)" />
+            <column name="sender_login" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="recipient_login" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="chat_message">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="chat_id" type="varchar(50)" />
+            <column name="sender_login" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="recipient_login" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="content" type="varchar(255)" />
+            <column name="timestamp" type="timestamp" />
+        </createTable>
         <addPrimaryKey columnNames="user_id, authority_name" tableName="jhi_user_authority" />
 
         <addForeignKeyConstraint baseColumnNames="authority_name"

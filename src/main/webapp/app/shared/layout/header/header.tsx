@@ -10,6 +10,7 @@ import MyLogin from 'app/modules/home/my-login';
 import MenuItem from '../menus/menu-item';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAppSelector } from 'app/config/store';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -21,13 +22,18 @@ const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-
+  const account = useAppSelector(state => state.authentication.account);
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
     <div id="app-header">
       <LoadingBar className="loading-bar" />
       <Navbar data-cy="navbar" light expand="md" fixed="top" className="bg-light">
+        {props.isAuthenticated && (
+          <span className="w-100 text-black ms-2" style={{ fontSize: '1.35rem', fontWeight: 'bold' }}>
+            {account.firstName} {account.lastName}
+          </span>
+        )}
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ms-auto" navbar>

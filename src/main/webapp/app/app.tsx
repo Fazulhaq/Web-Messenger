@@ -1,4 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 import './app.scss';
 import 'app/config/dayjs';
 
@@ -39,12 +42,10 @@ export const App = () => {
         <ErrorBoundary>
           <Header isAuthenticated={isAuthenticated} isAdmin={isAdmin} isOpenAPIEnabled={isOpenAPIEnabled} />
         </ErrorBoundary>
-        <div className="container-fluid view-container" id="app-view-container">
-          <Card className="jh-card">
-            <ErrorBoundary>
-              <AppRoutes />
-            </ErrorBoundary>
-          </Card>
+        <div className="container-fluid view-container mt-0 p-0" id="app-view-container">
+          <ErrorBoundary>
+            <AppRoutes />
+          </ErrorBoundary>
           <Footer />
         </div>
       </div>
