@@ -4,7 +4,6 @@ import static com.mcit.messenger.config.WebsocketConfiguration.IP_ADDRESS;
 
 import com.mcit.messenger.chat.ChatMessage;
 import com.mcit.messenger.chat.ChatMessageService;
-import com.mcit.messenger.chat.ChatNotification;
 import com.mcit.messenger.web.websocket.dto.ActivityDTO;
 import java.security.Principal;
 import java.time.Instant;
@@ -52,13 +51,7 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
     @MessageMapping("/topic/message")
     public void processMessage(@Payload ChatMessage chatMessage) {
         ChatMessage savedMsg = chatMessageService.save(chatMessage);
-        ChatNotification notification = new ChatNotification(
-            savedMsg.getId(),
-            savedMsg.getSenderLogin(),
-            savedMsg.getRecipientLogin(),
-            savedMsg.getContent()
-        );
-        messagingTemplateMessage.convertAndSendToUser(chatMessage.getRecipientLogin(), "/queue/messages", notification);
+        messagingTemplateMessage.convertAndSendToUser(chatMessage.getRecipientLogin(), "/queue/messages", savedMsg);
     }
 
     @Override

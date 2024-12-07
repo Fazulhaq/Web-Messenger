@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useAppSelector } from 'app/config/store';
+import React from 'react';
 
-const OnlineUsersList = ({ onSelectUser }) => {
-  const [users, setUsers] = useState([]);
+const OnlineUsersList = ({ onSelectUser, users }) => {
   const account = useAppSelector(state => state.authentication.account);
 
-  useEffect(() => {
-    async function fetchUsers() {
-      const response = await axios.get('/api/admin/connected-users');
-      const onlineUsers = response.data.filter(user => user.login !== account.login);
-      setUsers(onlineUsers);
-    }
-    fetchUsers();
-    const interval = setInterval(fetchUsers, 5000);
-    return () => clearInterval(interval);
-  }, [account.login]);
+  const onlineUsers = users.filter(user => user.login !== account.login);
 
   const itemTemplate = user => (
     <div
@@ -48,7 +37,7 @@ const OnlineUsersList = ({ onSelectUser }) => {
           overflowY: 'auto',
         }}
       >
-        {users.map(user => itemTemplate(user))}
+        {onlineUsers.map(user => itemTemplate(user))}
       </div>
     </div>
   );
