@@ -1,5 +1,7 @@
 package com.mcit.messenger.web.rest;
 
+import com.mcit.messenger.chat.ChatMessage;
+import com.mcit.messenger.chat.ChatMessageService;
 import com.mcit.messenger.config.Constants;
 import com.mcit.messenger.domain.User;
 import com.mcit.messenger.repository.UserRepository;
@@ -24,9 +26,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -89,10 +88,18 @@ public class UserResource {
 
     private final MailService mailService;
 
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    private final ChatMessageService chatMessageService;
+
+    public UserResource(
+        UserService userService,
+        UserRepository userRepository,
+        MailService mailService,
+        ChatMessageService chatMessageService
+    ) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.chatMessageService = chatMessageService;
     }
 
     /**
@@ -213,22 +220,17 @@ public class UserResource {
             .build();
     }
 
-    @MessageMapping("/user.connectUser")
-    @SendTo("/user/public")
-    public User connectUser(@Payload User user) {
-        userService.connectUser(user);
-        return user;
-    }
-
-    @MessageMapping("/user.disconnectUser")
-    @SendTo("/user/public")
-    public User disconnectUser(@Payload User user) {
-        userService.disconnectUser(user);
-        return user;
-    }
-
     @GetMapping("/connected-users")
     public ResponseEntity<List<User>> findConnectedUsers() {
         return ResponseEntity.ok(userService.findConnectedUsers());
+    }
+
+    @GetMapping("/messages/{senderLogin}/{recipientLogin}")
+    public ResponseEntity<List<ChatMessage>> findChatMessages(
+        @PathVariable("senderLogin") String senderLogin,
+        @PathVariable("recipientLogin") String recipientLogin
+    ) {
+        List<ChatMessage> messages = chatMessageService.findChatMessages(senderLogin, recipientLogin);
+        return ResponseEntity.ok().body(messages);
     }
 }

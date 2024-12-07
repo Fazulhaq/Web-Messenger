@@ -28,9 +28,15 @@ public class ChatRoomService {
     private String createChatId(String senderLogin, String recipientLogin) {
         String chatId = String.format("%s_%s", senderLogin, recipientLogin);
 
-        ChatRoom senderRecipient = new ChatRoom(chatId, senderLogin, recipientLogin);
+        ChatRoom senderRecipient = new ChatRoom();
+        senderRecipient.setChatId(chatId);
+        senderRecipient.setSenderLogin(senderLogin);
+        senderRecipient.setRecipientLogin(recipientLogin);
 
-        ChatRoom recipientSender = new ChatRoom(chatId, recipientLogin, senderLogin);
+        ChatRoom recipientSender = new ChatRoom();
+        recipientSender.setChatId(chatId);
+        recipientSender.setSenderLogin(recipientLogin);
+        recipientSender.setRecipientLogin(senderLogin);
 
         chatRoomRepository.save(senderRecipient);
         chatRoomRepository.save(recipientSender);

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Fieldset } from 'primereact/fieldset';
 import axios from 'axios';
 import { useAppSelector } from 'app/config/store';
 

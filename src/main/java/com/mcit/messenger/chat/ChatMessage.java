@@ -7,12 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chat_message")
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class ChatMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,6 +20,7 @@ public class ChatMessage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "chat_id", nullable = false)
@@ -31,20 +32,13 @@ public class ChatMessage implements Serializable {
     @Column(name = "recipient_login", nullable = false)
     private String recipientLogin;
 
-    @NotNull
     @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "timestamp", nullable = true)
-    private Instant timestamp;
+    private LocalDateTime timestamp;
 
-    public ChatMessage(String chatId, String senderLogin, String recipientLogin, @NotNull String content, Instant timestamp) {
-        this.chatId = chatId;
-        this.senderLogin = senderLogin;
-        this.recipientLogin = recipientLogin;
-        this.content = content;
-        this.timestamp = timestamp;
-    }
+    public ChatMessage() {}
 
     public Long getId() {
         return id;
@@ -86,32 +80,28 @@ public class ChatMessage implements Serializable {
         this.content = content;
     }
 
-    public Instant getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+        return getClass().hashCode();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ChatMessage other = (ChatMessage) obj;
-        if (id == null) {
-            if (other.id != null) return false;
-        } else if (!id.equals(other.id)) return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ChatMessage)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((ChatMessage) o).getId());
     }
 
     @Override

@@ -2,6 +2,9 @@ package com.mcit.messenger.web.websocket;
 
 import static com.mcit.messenger.config.WebsocketConfiguration.IP_ADDRESS;
 
+import com.mcit.messenger.chat.ChatMessage;
+import com.mcit.messenger.chat.ChatMessageService;
+import com.mcit.messenger.chat.ChatNotification;
 import com.mcit.messenger.web.websocket.dto.ActivityDTO;
 import java.security.Principal;
 import java.time.Instant;
@@ -10,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -20,9 +24,17 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
     private static final Logger log = LoggerFactory.getLogger(ActivityService.class);
 
     private final SimpMessageSendingOperations messagingTemplate;
+    private final SimpMessagingTemplate messagingTemplateMessage;
+    private final ChatMessageService chatMessageService;
 
-    public ActivityService(SimpMessageSendingOperations messagingTemplate) {
+    public ActivityService(
+        SimpMessageSendingOperations messagingTemplate,
+        SimpMessagingTemplate messagingTemplateMessage,
+        ChatMessageService chatMessageService
+    ) {
         this.messagingTemplate = messagingTemplate;
+        this.messagingTemplateMessage = messagingTemplateMessage;
+        this.chatMessageService = chatMessageService;
     }
 
     @MessageMapping("/topic/activity")
@@ -35,6 +47,18 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
         activityDTO.setMyName("Super Admin");
         log.debug("Sending user tracking data {}", activityDTO);
         return activityDTO;
+    }
+
+    @MessageMapping("/topic/message")
+    public void processMessage(@Payload ChatMessage chatMessage) {
+        ChatMessage savedMsg = chatMessageService.save(chatMessage);
+        ChatNotification notification = new ChatNotification(
+            savedMsg.getId(),
+            savedMsg.getSenderLogin(),
+            savedMsg.getRecipientLogin(),
+            savedMsg.getContent()
+        );
+        messagingTemplateMessage.convertAndSendToUser(chatMessage.getRecipientLogin(), "/queue/messages", notification);
     }
 
     @Override

@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "chat_room")
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class ChatRoom implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,22 +20,22 @@ public class ChatRoom implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(name = "chat_id", nullable = false)
     private String chatId;
 
+    @NotNull
     @Column(name = "sender_login", nullable = false)
     private String senderLogin;
 
+    @NotNull
     @Column(name = "recipient_login", nullable = false)
     private String recipientLogin;
 
-    public ChatRoom(String chatId, String senderLogin, String recipientLogin) {
-        this.chatId = chatId;
-        this.senderLogin = senderLogin;
-        this.recipientLogin = recipientLogin;
-    }
+    public ChatRoom() {}
 
     public Long getId() {
         return id;
@@ -69,34 +71,18 @@ public class ChatRoom implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((chatId == null) ? 0 : chatId.hashCode());
-        result = prime * result + ((senderLogin == null) ? 0 : senderLogin.hashCode());
-        result = prime * result + ((recipientLogin == null) ? 0 : recipientLogin.hashCode());
-        return result;
+        return getClass().hashCode();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ChatRoom other = (ChatRoom) obj;
-        if (id == null) {
-            if (other.id != null) return false;
-        } else if (!id.equals(other.id)) return false;
-        if (chatId == null) {
-            if (other.chatId != null) return false;
-        } else if (!chatId.equals(other.chatId)) return false;
-        if (senderLogin == null) {
-            if (other.senderLogin != null) return false;
-        } else if (!senderLogin.equals(other.senderLogin)) return false;
-        if (recipientLogin == null) {
-            if (other.recipientLogin != null) return false;
-        } else if (!recipientLogin.equals(other.recipientLogin)) return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ChatRoom)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((ChatRoom) o).getId());
     }
 
     @Override

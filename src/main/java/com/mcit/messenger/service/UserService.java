@@ -318,22 +318,6 @@ public class UserService {
         return authorityRepository.findAll().stream().map(Authority::getName).toList();
     }
 
-    public void connectUser(User user) {
-        var storedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
-        if (storedUser != null) {
-            user.setStatus(Status.ONLINE);
-            userRepository.save(user);
-        }
-    }
-
-    public void disconnectUser(User user) {
-        var storedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
-        if (storedUser != null) {
-            storedUser.setStatus(Status.OFFLINE);
-            userRepository.save(storedUser);
-        }
-    }
-
     // Getting online users to show in frontend part of web-messenger
     public List<User> findConnectedUsers() {
         return userRepository.findAllByStatus(Status.ONLINE);

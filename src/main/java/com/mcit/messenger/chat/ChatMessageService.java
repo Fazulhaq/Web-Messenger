@@ -1,6 +1,7 @@
 package com.mcit.messenger.chat;
 
 import com.mcit.messenger.chatroom.ChatRoomService;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class ChatMessageService {
     public ChatMessage save(ChatMessage chatMessage) {
         var chatId = chatRoomService.getChatRoomId(chatMessage.getSenderLogin(), chatMessage.getRecipientLogin(), true).orElseThrow();
         chatMessage.setChatId(chatId);
+        chatMessage.setTimestamp(LocalDateTime.now());
         repository.save(chatMessage);
         return chatMessage;
     }
