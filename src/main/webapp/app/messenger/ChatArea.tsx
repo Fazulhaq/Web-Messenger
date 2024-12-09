@@ -134,6 +134,12 @@ export const ChatArea = ({ clickedUser }) => {
         <InputTextarea
           value={messageContent}
           onChange={e => setMessageContent(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage();
+            }
+          }}
           rows={1}
           cols={100}
           placeholder="Type a message here"
