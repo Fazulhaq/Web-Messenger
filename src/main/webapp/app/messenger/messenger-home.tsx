@@ -32,6 +32,10 @@ export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
   const userLogin = account.login;
 
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   const connect = () => {
     if (connectedPromise !== null || alreadyConnectedOnce) {
       return;

@@ -4,9 +4,10 @@ import { Button } from 'primereact/button';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Card } from 'primereact/card';
 import { Storage } from 'react-jhipster';
 import axios from 'axios';
-import { Observable } from 'rxjs';
+import { Observable, timestamp } from 'rxjs';
 
 let stompClient = null;
 
@@ -84,6 +85,7 @@ export const ChatArea = ({ clickedUser }) => {
         senderLogin: userLogin,
         recipientLogin: clickedUser,
         content: messageContent,
+        timestamp: new Date(),
       };
       stompClient.send('/topic/message', JSON.stringify(chatMessage), {});
       setMessages(prev => [...prev, chatMessage]);
@@ -111,24 +113,71 @@ export const ChatArea = ({ clickedUser }) => {
     }
   };
 
+  const formatDate = dateString => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    return `${day}/${month}/${year} ${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+  };
+
   return (
     <div className="m-0 p-0">
-      <div className="d-flex p-3 mx-1 my-0" ref={chatAreaRef} style={{ height: '556px', overflowY: 'auto', border: '1px solid #ccc' }}>
-        {messages.map((message, index) => (
-          <div
-            style={{
-              backgroundColor: '#3498db',
-              color: '#fff',
-              alignSelf: 'flex-end',
-              padding: '0 12px',
-              borderRadius: '7px',
-              wordWrap: 'break-word',
-            }}
-            key={index}
-          >
-            <p>{message.content}</p>
-          </div>
-        ))}
+      <div
+        className="d-flex flex-column p-4 mx-1 my-0"
+        ref={chatAreaRef}
+        style={{ height: '556px', overflowY: 'auto', border: '1px solid #ccc' }}
+      >
+        {messages.map((message, index) =>
+          message.recipientLogin === userLogin ? (
+            <div className="d-flex flex-column" key={index}>
+              <div
+                key={index}
+                className="m-2 mb-1 justify-content-start ms-auto"
+                style={{
+                  backgroundColor: '#000080',
+                  color: '#F0FFF0',
+                  padding: '0.9rem',
+                  paddingTop: '0.6rem',
+                  paddingBottom: '0.6rem',
+                  borderRadius: '0.3rem',
+                  wordWrap: 'break-word',
+                }}
+              >
+                {message.content}
+              </div>
+              <p className="m-2 justify-content-start ms-auto mt-0" style={{ fontSize: '0.8rem', color: '#6c757d' }}>
+                Date: {formatDate(message.timestamp)}
+              </p>
+            </div>
+          ) : (
+            <div className="d-flex flex-column" key={index}>
+              <div
+                key={index}
+                className="m-2 mb-1 justify-content-end me-auto"
+                style={{
+                  backgroundColor: '#800080',
+                  color: '#F0FFF0',
+                  padding: '0.9rem',
+                  paddingTop: '0.6rem',
+                  paddingBottom: '0.6rem',
+                  borderRadius: '0.3rem',
+                  wordWrap: 'break-word',
+                }}
+              >
+                {message.content}
+              </div>
+              <p className="m-2 justify-content-end me-auto mt-0" style={{ fontSize: '0.8rem', color: '#6c757d' }}>
+                Date: {formatDate(message.timestamp)}
+              </p>
+            </div>
+          ),
+        )}
       </div>
       <div className="d-flex align-items-center m-1">
         <InputTextarea
