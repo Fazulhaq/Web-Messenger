@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,12 +38,20 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final SimpMessagingTemplate messagingTemplateMessage;
+
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        AuthorityRepository authorityRepository,
+        SimpMessagingTemplate messagingTemplateMessage
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.messagingTemplateMessage = messagingTemplateMessage;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -273,6 +282,7 @@ public class UserService {
             .ifPresent(user -> {
                 user.setStatus(Status.ONLINE);
                 userRepository.save(user);
+                messagingTemplateMessage.convertAndSend("/topic/public", user);
                 log.debug("Changed status for User: {}", user);
             });
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
@@ -289,6 +299,7 @@ public class UserService {
             .ifPresent(user -> {
                 user.setStatus(Status.OFFLINE);
                 userRepository.save(user);
+                messagingTemplateMessage.convertAndSend("/topic/public", user);
                 log.debug("Changed status for User: {}", user);
             });
     }

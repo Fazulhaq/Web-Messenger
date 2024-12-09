@@ -58,8 +58,8 @@ export const Home = () => {
 
   const subscribe = () => {
     connection.then(() => {
-      stompClient.subscribe(`/user/${userLogin}/queue/messages`);
-      stompClient.subscribe(`/user/public`);
+      stompClient.subscribe(`/chat/${userLogin}/messages`, onMessageReceived);
+      stompClient.subscribe(`/topic/public`, onMessageReceived);
     });
   };
 
@@ -67,6 +67,12 @@ export const Home = () => {
     connect();
     subscribe();
   }, [userLogin]);
+
+  async function onMessageReceived(payload) {
+    if (payload.body) {
+      await fetchUsers();
+    }
+  }
 
   async function fetchUsers() {
     const response = await axios.get('/api/admin/connected-users');

@@ -19,6 +19,8 @@ logging:
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.mcit.messenger: DEBUG
+    org.springframework.messaging: DEBUG
+    org.springframework.web.socket: DEBUG
 
 spring:
   devtools:

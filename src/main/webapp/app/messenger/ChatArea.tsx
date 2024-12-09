@@ -38,11 +38,8 @@ export const ChatArea = ({ clickedUser }) => {
     }
     connection = createConnection();
     listener = createListener();
-
-    // building absolute path so that websocket doesn't fail when deploying with a context path
     const loc = window.location;
     const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
-
     const headers = {};
     let url = '//' + loc.host + baseHref + '/websocket/tracker';
     const authToken = Storage.local.get('jhi-authenticationToken') || Storage.session.get('jhi-authenticationToken');
@@ -51,7 +48,6 @@ export const ChatArea = ({ clickedUser }) => {
     }
     const socket = new SockJS(url);
     stompClient = Stomp.over(socket, { protocols: ['v12.stomp'] });
-
     stompClient.connect(headers, () => {
       connectedPromise('success');
       connectedPromise = null;
@@ -61,13 +57,16 @@ export const ChatArea = ({ clickedUser }) => {
 
   const subscribe = () => {
     connection.then(() => {
-      stompClient.subscribe(`/user/${userLogin}/queue/messages`, onMessageReceived);
+      stompClient.subscribe(`/chat/${userLogin}/messages`, onMessageReceived);
     });
   };
 
   useEffect(() => {
     connect();
     subscribe();
+  }, [userLogin]);
+
+  useEffect(() => {
     loadUserChat(userLogin, clickedUser);
   }, [clickedUser]);
 

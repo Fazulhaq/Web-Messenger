@@ -17,19 +17,21 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
             .simpDestMatchers("/topic/tracker")
             .hasAnyAuthority(AuthoritiesConstants.ADMIN)
             .simpDestMatchers("/topic/message")
-            .permitAll()
+            .authenticated()
             // matches any destination that starts with /topic/
             // (i.e. cannot send messages directly to /topic/)
             // (i.e. cannot subscribe to /topic/messages/* to get messages sent to
             // /topic/messages-user<id>)
             .simpDestMatchers("/topic/**")
-            .permitAll()
+            .authenticated()
+            .simpDestMatchers("/chat/**")
+            .authenticated()
             // message types other than MESSAGE and SUBSCRIBE
             .simpTypeMatchers(SimpMessageType.MESSAGE, SimpMessageType.SUBSCRIBE, SimpMessageType.OTHER)
             .permitAll()
             // catch all
             .anyMessage()
-            .permitAll();
+            .denyAll();
     }
 
     /**

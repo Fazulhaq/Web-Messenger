@@ -51,7 +51,7 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
     @MessageMapping("/topic/message")
     public void processMessage(@Payload ChatMessage chatMessage) {
         ChatMessage savedMsg = chatMessageService.save(chatMessage);
-        messagingTemplateMessage.convertAndSendToUser(chatMessage.getRecipientLogin(), "/queue/messages", savedMsg);
+        messagingTemplateMessage.convertAndSend("/chat/" + chatMessage.getRecipientLogin() + "/messages", savedMsg);
     }
 
     @Override
