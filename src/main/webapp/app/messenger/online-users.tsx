@@ -1,16 +1,25 @@
 import { useAppSelector } from 'app/config/store';
-import React from 'react';
+import React, { useState } from 'react';
 
 const OnlineUsersList = ({ onSelectUser, users }) => {
+  const [selectedUser, setSelectedUser] = useState(null);
+
   const account = useAppSelector(state => state.authentication.account);
 
   const onlineUsers = users.filter(user => user.login !== account.login);
 
+  const handleUserClick = user => {
+    setSelectedUser(user.login);
+    onSelectUser(user.login);
+  };
+
   const itemTemplate = user => (
     <div
       key={user.login}
-      className="d-flex align-items-center p-2 ml-3 border-bottom list-group-item-action shadow-sm hover-shadow-lg"
-      onClick={() => onSelectUser(user.login)}
+      className={`d-flex align-items-center p-2 ml-3 border-bottom list-group-item-action shadow-sm hover-shadow-lg ${
+        selectedUser === user.login ? 'bg-light text-black' : ''
+      }`}
+      onClick={() => handleUserClick(user)}
     >
       <div className="flex-shrink-0 me-3">
         <div className="rounded-circle overflow-hidden" style={{ width: '45px', height: '45px' }}>
