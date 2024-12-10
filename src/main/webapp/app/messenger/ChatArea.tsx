@@ -4,10 +4,9 @@ import { Button } from 'primereact/button';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Card } from 'primereact/card';
 import { Storage } from 'react-jhipster';
 import axios from 'axios';
-import { Observable, timestamp } from 'rxjs';
+import { Observable } from 'rxjs';
 
 let stompClient = null;
 
@@ -24,11 +23,10 @@ const createListener = (): Observable<any> =>
     listenerObserver = observer;
   });
 
-export const ChatArea = ({ clickedUser }) => {
+export const ChatArea = ({ clickedUser, newMessage }) => {
   const [messages, setMessages] = useState([]);
   const [messageContent, setMessageContent] = useState('');
   const chatAreaRef = useRef(null);
-  const stompClientRef = useRef(null);
 
   const account = useAppSelector(state => state.authentication.account);
   const userLogin = account.login;
@@ -56,28 +54,25 @@ export const ChatArea = ({ clickedUser }) => {
     });
   };
 
-  const subscribe = () => {
-    connection.then(() => {
-      stompClient.subscribe(`/chat/${userLogin}/messages`, onMessageReceived);
-    });
-  };
-
   useEffect(() => {
     connect();
-    subscribe();
   }, [userLogin]);
 
   useEffect(() => {
     loadUserChat(userLogin, clickedUser);
   }, [clickedUser]);
 
-  const onMessageReceived = payload => {
-    const message = JSON.parse(payload.body);
-    setMessages(prev => [...prev, message]);
-    if (clickedUser && clickedUser === message.senderLogin) {
-      scrollToBottom();
+  useEffect(() => {
+    if (clickedUser && clickedUser === newMessage.senderLogin) {
+      setMessages(prev => [...prev, newMessage]);
     }
-  };
+  }, [newMessage]);
+
+  useEffect(() => {
+    if (chatAreaRef.current) {
+      chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const sendMessage = () => {
     if (messageContent.trim() && stompClient) {
@@ -90,7 +85,6 @@ export const ChatArea = ({ clickedUser }) => {
       stompClient.send('/topic/message', JSON.stringify(chatMessage), {});
       setMessages(prev => [...prev, chatMessage]);
       setMessageContent('');
-      scrollToBottom();
     }
   };
 
@@ -101,15 +95,8 @@ export const ChatArea = ({ clickedUser }) => {
     const userChat = response.data;
     if (userChat) {
       setMessages(userChat);
-      scrollToBottom();
     } else {
       setMessages([]);
-    }
-  };
-
-  const scrollToBottom = () => {
-    if (chatAreaRef.current) {
-      chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
     }
   };
 
@@ -147,6 +134,7 @@ export const ChatArea = ({ clickedUser }) => {
                   paddingBottom: '0.6rem',
                   borderRadius: '0.3rem',
                   wordWrap: 'break-word',
+                  whiteSpace: 'pre-line',
                 }}
               >
                 {message.content}
@@ -168,6 +156,7 @@ export const ChatArea = ({ clickedUser }) => {
                   paddingBottom: '0.6rem',
                   borderRadius: '0.3rem',
                   wordWrap: 'break-word',
+                  whiteSpace: 'pre-line',
                 }}
               >
                 {message.content}

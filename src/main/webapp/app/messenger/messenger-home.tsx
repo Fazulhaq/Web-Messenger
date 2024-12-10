@@ -25,8 +25,9 @@ const createListener = (): Observable<any> =>
   });
 
 export const Home = () => {
+  const [message, setMessage] = useState([]);
   const [visibleChatArea, setVisibleChatArea] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState('');
 
   const [users, setUsers] = useState([]);
   const account = useAppSelector(state => state.authentication.account);
@@ -63,7 +64,7 @@ export const Home = () => {
   const subscribe = () => {
     connection.then(() => {
       stompClient.subscribe(`/chat/${userLogin}/messages`, onMessageReceived);
-      stompClient.subscribe(`/topic/public`, onMessageReceived);
+      stompClient.subscribe(`/topic/public`, onUserEvent);
     });
   };
 
@@ -72,7 +73,12 @@ export const Home = () => {
     subscribe();
   }, [userLogin]);
 
-  async function onMessageReceived(payload) {
+  const onMessageReceived = payload => {
+    const payloadMessage = JSON.parse(payload.body);
+    setMessage(payloadMessage);
+  };
+
+  async function onUserEvent(payload) {
     if (payload.body) {
       await fetchUsers();
     }
@@ -96,7 +102,7 @@ export const Home = () => {
           <OnlineUsersList onSelectUser={handleUserSelect} users={users} />
         </Col>
         <Col md="9" className="m-0 p-0">
-          {visibleChatArea && <ChatArea clickedUser={selectedUser} />}
+          {visibleChatArea && <ChatArea clickedUser={selectedUser} newMessage={message} />}
         </Col>
       </Row>
     </div>
