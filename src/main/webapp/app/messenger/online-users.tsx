@@ -16,7 +16,7 @@ const OnlineUsersList = ({ onSelectUser, users }) => {
   const itemTemplate = user => (
     <div
       key={user.login}
-      className={`d-flex align-items-center p-2 ml-3 border-bottom list-group-item-action shadow-sm hover-shadow-lg ${
+      className={`d-flex align-items-center p-2 m-1 border-bottom list-group-item-action shadow-sm hover-shadow-lg ${
         selectedUser === user.login ? 'bg-white text-black' : 'bg-light text-black'
       }`}
       onClick={() => handleUserClick(user)}
@@ -31,16 +31,27 @@ const OnlineUsersList = ({ onSelectUser, users }) => {
           {user.firstName} {user.lastName}
         </h6>
       </div>
+      {user.status === 'ONLINE' ? (
+        <span
+          className="rounded-circle bg-success d-inline-block"
+          style={{
+            width: '15px',
+            height: '15px',
+            marginLeft: 'auto',
+          }}
+          title="Online"
+        ></span>
+      ) : null}
     </div>
   );
 
   return (
     <div className="p-0 m-0">
       <span className="p-0 m-0 d-block w-100 text-center p-3 bg-dark text-white" style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-        Online Users
+        Chat Users
       </span>
       <div
-        className="list-group ml-4"
+        className="list-group ml-4 overflow-auto"
         style={{
           maxHeight: '540px',
           overflowY: 'auto',

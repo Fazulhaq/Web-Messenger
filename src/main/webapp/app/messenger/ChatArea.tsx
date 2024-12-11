@@ -80,7 +80,7 @@ export const ChatArea = ({ clickedUser, newMessage }) => {
         senderLogin: userLogin,
         recipientLogin: clickedUser,
         content: messageContent,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
       };
       stompClient.send('/topic/message', JSON.stringify(chatMessage), {});
       setMessages(prev => [...prev, chatMessage]);
