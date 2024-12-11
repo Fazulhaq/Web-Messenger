@@ -329,8 +329,8 @@ public class UserService {
         return authorityRepository.findAll().stream().map(Authority::getName).toList();
     }
 
-    // Getting online users to show in frontend part of web-messenger
-    public List<User> findConnectedUsers() {
-        return userRepository.findAllByStatus(Status.ONLINE);
+    // Getting chat users to show in frontend part of web-messenger
+    public List<User> findChatUsers() {
+        return userRepository.findAll();
     }
 }

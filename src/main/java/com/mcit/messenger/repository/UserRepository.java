@@ -1,6 +1,5 @@
 package com.mcit.messenger.repository;
 
-import com.mcit.messenger.domain.Status;
 import com.mcit.messenger.domain.User;
 import java.time.Instant;
 import java.util.List;
@@ -28,7 +27,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String email);
 
     Page<User> findAllByIdNotNullAndActivatedIsTrue(Pageable pageable);
-
-    @EntityGraph(attributePaths = "authorities")
-    List<User> findAllByStatus(Status status);
 }

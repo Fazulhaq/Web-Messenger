@@ -6,7 +6,6 @@ import './app.scss';
 import 'app/config/dayjs';
 
 import React, { useEffect } from 'react';
-import { Card } from 'reactstrap';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -37,10 +36,10 @@ export const App = () => {
   const paddingTop = '60px';
   return (
     <BrowserRouter basename={baseHref}>
-      <div className="app-container" style={{ paddingTop }}>
+      <div className="p-0 m-0 bg-light" style={{ paddingTop }}>
         <ToastContainer position="top-left" className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
-          <Header isAuthenticated={isAuthenticated} isAdmin={isAdmin} isOpenAPIEnabled={isOpenAPIEnabled} />
+          {isAuthenticated && <Header isAuthenticated={isAuthenticated} isAdmin={isAdmin} isOpenAPIEnabled={isOpenAPIEnabled} />}
         </ErrorBoundary>
         <div className="container-fluid view-container mt-0 p-0" id="app-view-container">
           <ErrorBoundary>

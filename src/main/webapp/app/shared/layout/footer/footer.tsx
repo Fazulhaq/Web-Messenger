@@ -5,10 +5,10 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 
 const Footer = () => (
-  <div className="footer page-content">
+  <div>
     <Row>
-      <Col md="12" className="justify-content-center d-flex mt-3">
-        <p>Web Messenger Developed By: MCIT DEVELOPERS</p>
+      <Col md="12" className="d-flex justify-content-center fixed-bottom py-1" style={{ backgroundColor: '#ADD8E6' }}>
+        <p className="p-0 m-0">Web Messenger Developed By: MCIT Developers</p>
       </Col>
     </Row>
   </div>

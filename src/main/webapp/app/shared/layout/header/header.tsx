@@ -6,8 +6,6 @@ import { Navbar, Nav, NavbarToggler, Collapse, NavItem, NavLink } from 'reactstr
 import LoadingBar from 'react-redux-loading-bar';
 
 import { AdminMenu, AccountMenu } from '../menus';
-import MyLogin from 'app/modules/home/my-login';
-import MenuItem from '../menus/menu-item';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSelector } from 'app/config/store';
@@ -26,9 +24,9 @@ const Header = (props: IHeaderProps) => {
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
-    <div id="app-header">
+    <div id="app-header p-0 m-0">
       <LoadingBar className="loading-bar" />
-      <Navbar data-cy="navbar" light expand="md" fixed="top" className="bg-light">
+      <Navbar data-cy="navbar" light expand="md" fixed="top" style={{ backgroundColor: '#87CEFA' }}>
         {props.isAuthenticated && (
           <span className="w-100 text-black ms-2" style={{ fontSize: '1.35rem', fontWeight: 'bold' }}>
             {account.firstName} {account.lastName}
@@ -45,7 +43,14 @@ const Header = (props: IHeaderProps) => {
                 </NavLink>
               </NavItem>
             )}
-            {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
+            {props.isAuthenticated && props.isAdmin && (
+              <NavItem>
+                <NavLink tag={Link} to="/admin/user-management" className="d-flex align-items-center">
+                  <FontAwesomeIcon icon="users" />
+                  <span>Management</span>
+                </NavLink>
+              </NavItem>
+            )}
             {props.isAuthenticated && <AccountMenu isAuthenticated={props.isAuthenticated} />}
           </Nav>
         </Collapse>

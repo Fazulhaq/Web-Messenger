@@ -36,12 +36,12 @@ export const RegisterPage = () => {
   }, [successMessage]);
 
   return (
-    <div>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <h1 id="register-title" data-cy="registerTitle">
+    <div className="vh-100">
+      <Row className="justify-content-center pt-2">
+        <Col md="8" className="text-center">
+          <h2 id="register-title" data-cy="registerTitle">
             Registration
-          </h1>
+          </h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
@@ -72,6 +72,19 @@ export const RegisterPage = () => {
               data-cy="lastName"
             />
             <ValidatedField
+              name="email"
+              label="Email"
+              placeholder="Your email"
+              type="email"
+              validate={{
+                required: { value: true, message: 'Your email is required.' },
+                minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
+                maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
+                validate: v => isEmail(v) || 'Your email is invalid.',
+              }}
+              data-cy="email"
+            />
+            <ValidatedField
               name="username"
               label="Username"
               placeholder="Your username"
@@ -87,22 +100,9 @@ export const RegisterPage = () => {
               data-cy="username"
             />
             <ValidatedField
-              name="email"
-              label="Email"
-              placeholder="Your email"
-              type="email"
-              validate={{
-                required: { value: true, message: 'Your email is required.' },
-                minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
-                validate: v => isEmail(v) || 'Your email is invalid.',
-              }}
-              data-cy="email"
-            />
-            <ValidatedField
               name="firstPassword"
-              label="New password"
-              placeholder="New password"
+              label="Your password"
+              placeholder="Your password"
               type="password"
               onChange={updatePassword}
               validate={{
@@ -113,7 +113,7 @@ export const RegisterPage = () => {
               data-cy="firstPassword"
             />
             <PasswordStrengthBar password={password} />
-            <ValidatedField
+            {/* <ValidatedField
               name="secondPassword"
               label="New password confirmation"
               placeholder="Confirm the new password"
@@ -125,7 +125,7 @@ export const RegisterPage = () => {
                 validate: v => v === password || 'The password and its confirmation do not match!',
               }}
               data-cy="secondPassword"
-            />
+            /> */}
             <Button id="register-submit" color="primary" type="submit" data-cy="submit">
               Register
             </Button>

@@ -220,9 +220,9 @@ public class UserResource {
             .build();
     }
 
-    @GetMapping("/connected-users")
-    public ResponseEntity<List<User>> findConnectedUsers() {
-        return ResponseEntity.ok(userService.findConnectedUsers());
+    @GetMapping("/chat-users")
+    public ResponseEntity<List<User>> findChatUsers() {
+        return ResponseEntity.ok(userService.findChatUsers());
     }
 
     @GetMapping("/messages/{senderLogin}/{recipientLogin}")

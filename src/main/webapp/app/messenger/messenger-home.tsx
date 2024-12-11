@@ -28,13 +28,16 @@ export const Home = () => {
   const [message, setMessage] = useState([]);
   const [visibleChatArea, setVisibleChatArea] = useState(false);
   const [selectedUser, setSelectedUser] = useState('');
-
   const [users, setUsers] = useState([]);
+
   const account = useAppSelector(state => state.authentication.account);
   const userLogin = account.login;
 
   useEffect(() => {
-    fetchUsers();
+    const fetchData = async () => {
+      await fetchUsers();
+    };
+    fetchData();
   }, []);
 
   const connect = () => {
@@ -73,6 +76,11 @@ export const Home = () => {
     subscribe();
   }, [userLogin]);
 
+  const handleUserSelect = login => {
+    setSelectedUser(login);
+    setVisibleChatArea(true);
+  };
+
   const onMessageReceived = payload => {
     const payloadMessage = JSON.parse(payload.body);
     setMessage(payloadMessage);
@@ -85,26 +93,23 @@ export const Home = () => {
   }
 
   async function fetchUsers() {
-    const response = await axios.get('/api/admin/connected-users');
-    const onlineUsers = response.data;
-    setUsers(onlineUsers);
+    const response = await axios.get('/api/admin/chat-users');
+    const chatUsers = response.data;
+    setUsers(chatUsers);
   }
 
-  const handleUserSelect = login => {
-    setSelectedUser(login);
-    setVisibleChatArea(true);
-  };
-
   return (
-    <div className="m-0 p-0">
-      <Row className="m-0 p-0 justify-content-center">
-        <Col md="3" className="m-0 p-0">
-          <OnlineUsersList onSelectUser={handleUserSelect} users={users} />
-        </Col>
-        <Col md="9" className="m-0 p-0">
-          {visibleChatArea && <ChatArea clickedUser={selectedUser} newMessage={message} />}
-        </Col>
-      </Row>
+    <div className="justify-content-center pt-5 vh-90">
+      <div className="vh-100">
+        <Row className="m-0 p-0 justify-content-center">
+          <Col md="3" className="m-0 p-0">
+            <OnlineUsersList onSelectUser={handleUserSelect} users={users} />
+          </Col>
+          <Col md="9" className="m-0 p-0">
+            {visibleChatArea && <ChatArea clickedUser={selectedUser} newMessage={message} />}
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };

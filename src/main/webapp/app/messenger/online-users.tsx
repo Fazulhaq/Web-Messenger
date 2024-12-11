@@ -17,7 +17,7 @@ const OnlineUsersList = ({ onSelectUser, users }) => {
     <div
       key={user.login}
       className={`d-flex align-items-center p-2 ml-3 border-bottom list-group-item-action shadow-sm hover-shadow-lg ${
-        selectedUser === user.login ? 'bg-light text-black' : ''
+        selectedUser === user.login ? 'bg-white text-black' : 'bg-light text-black'
       }`}
       onClick={() => handleUserClick(user)}
     >
