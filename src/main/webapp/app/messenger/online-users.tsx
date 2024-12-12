@@ -1,7 +1,7 @@
 import { useAppSelector } from 'app/config/store';
 import React, { useState } from 'react';
 
-const OnlineUsersList = ({ onSelectUser, users }) => {
+const OnlineUsersList = ({ onSelectUser, userFullName, users }) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const account = useAppSelector(state => state.authentication.account);
@@ -11,6 +11,7 @@ const OnlineUsersList = ({ onSelectUser, users }) => {
   const handleUserClick = user => {
     setSelectedUser(user.login);
     onSelectUser(user.login);
+    userFullName(user.firstName + ' ' + user.lastName);
   };
 
   const itemTemplate = user => (
@@ -48,12 +49,12 @@ const OnlineUsersList = ({ onSelectUser, users }) => {
   return (
     <div className="p-0 m-0">
       <span className="p-0 m-0 d-block w-100 text-center p-3 bg-dark text-white" style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-        Chat Users
+        All Users
       </span>
       <div
         className="list-group ml-4"
         style={{
-          maxHeight: '542px',
+          maxHeight: '568px',
           overflowY: 'auto',
           overflowX: 'hidden',
         }}

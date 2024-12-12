@@ -24,9 +24,9 @@ const Header = (props: IHeaderProps) => {
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
-    <div id="app-header p-0 m-0">
+    <div id="app-header p-0 m-0 text-white">
       <LoadingBar className="loading-bar" />
-      <Navbar data-cy="navbar" light expand="md" fixed="top" style={{ backgroundColor: '#87CEFA' }}>
+      <Navbar data-cy="navbar" light expand="md" fixed="top" style={{ backgroundColor: '#FEFFFF' }}>
         {props.isAuthenticated && (
           <span className="w-100 text-black ms-2" style={{ fontSize: '1.35rem', fontWeight: 'bold' }}>
             {account.firstName} {account.lastName}

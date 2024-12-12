@@ -23,7 +23,7 @@ const createListener = (): Observable<any> =>
     listenerObserver = observer;
   });
 
-export const ChatArea = ({ clickedUser, newMessage }) => {
+export const ChatArea = ({ clickedUser, userFullName, newMessage }) => {
   const [messages, setMessages] = useState([]);
   const [messageContent, setMessageContent] = useState('');
   const chatAreaRef = useRef(null);
@@ -115,57 +115,85 @@ export const ChatArea = ({ clickedUser, newMessage }) => {
 
   return (
     <div>
-      <div
-        className="d-flex flex-column p-4 m-0 mx-1 my-1"
-        ref={chatAreaRef}
-        style={{ height: '556px', overflowY: 'auto', border: '1px solid #ccc' }}
+      <span
+        className="p-0 m-0 d-block w-100 text-center p-1 pt-3"
+        style={{
+          fontSize: '1.2rem',
+          fontWeight: 'bold',
+          color: 'dark',
+          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
+        }}
       >
-        {messages.map((message, index) =>
-          message.recipientLogin === userLogin ? (
-            <div className="d-flex flex-column" key={index}>
-              <div
-                key={index}
-                className="m-2 mb-1 justify-content-start ms-auto"
-                style={{
-                  backgroundColor: '#000080',
-                  color: '#F0FFF0',
-                  padding: '0.9rem',
-                  paddingTop: '0.6rem',
-                  paddingBottom: '0.6rem',
-                  borderRadius: '0.3rem',
-                  wordWrap: 'break-word',
-                  whiteSpace: 'pre-line',
-                }}
-              >
-                {message.content}
-              </div>
-              <p className="m-2 justify-content-start ms-auto mt-0" style={{ fontSize: '0.8rem', color: '#6c757d' }}>
-                Date: {formatDate(message.timestamp)}
-              </p>
-            </div>
-          ) : (
-            <div className="d-flex flex-column" key={index}>
-              <div
-                key={index}
-                className="m-2 mb-1 justify-content-end me-auto"
-                style={{
-                  backgroundColor: '#800080',
-                  color: '#F0FFF0',
-                  padding: '0.9rem',
-                  paddingTop: '0.6rem',
-                  paddingBottom: '0.6rem',
-                  borderRadius: '0.3rem',
-                  wordWrap: 'break-word',
-                  whiteSpace: 'pre-line',
-                }}
-              >
-                {message.content}
-              </div>
-              <p className="m-2 justify-content-end me-auto mt-0" style={{ fontSize: '0.8rem', color: '#6c757d' }}>
-                Date: {formatDate(message.timestamp)}
-              </p>
-            </div>
-          ),
+        Chat With {userFullName}
+      </span>
+      <div
+        className="d-flex flex-column p-0 m-0 mx-1 my-1"
+        ref={chatAreaRef}
+        style={{ backgroundColor: '#f9f9f9', height: '535px', overflowY: 'auto', border: '1px solid #ccc' }}
+      >
+        {messages.length > 0 ? (
+          <div className="p-4 w-100 d-flex flex-column">
+            {messages.map((message, index) =>
+              message.recipientLogin === userLogin ? (
+                <div className="d-flex flex-column" key={index}>
+                  <div
+                    key={index}
+                    className="m-2 mb-1 justify-content-start ms-auto"
+                    style={{
+                      backgroundColor: '#000080',
+                      color: '#F0FFF0',
+                      padding: '0.9rem',
+                      paddingTop: '0.6rem',
+                      paddingBottom: '0.6rem',
+                      borderRadius: '0.3rem',
+                      wordWrap: 'break-word',
+                      whiteSpace: 'pre-line',
+                    }}
+                  >
+                    {message.content}
+                  </div>
+                  <p className="m-2 justify-content-start ms-auto mt-0" style={{ fontSize: '0.8rem', color: '#6c757d' }}>
+                    Date: {formatDate(message.timestamp)}
+                  </p>
+                </div>
+              ) : (
+                <div className="d-flex flex-column" key={index}>
+                  <div
+                    key={index}
+                    className="m-2 mb-1 justify-content-end me-auto"
+                    style={{
+                      backgroundColor: '#800080',
+                      color: '#F0FFF0',
+                      padding: '0.9rem',
+                      paddingTop: '0.6rem',
+                      paddingBottom: '0.6rem',
+                      borderRadius: '0.3rem',
+                      wordWrap: 'break-word',
+                      whiteSpace: 'pre-line',
+                    }}
+                  >
+                    {message.content}
+                  </div>
+                  <p className="m-2 justify-content-end me-auto mt-0" style={{ fontSize: '0.8rem', color: '#6c757d' }}>
+                    Date: {formatDate(message.timestamp)}
+                  </p>
+                </div>
+              ),
+            )}
+          </div>
+        ) : (
+          <div className="d-flex justify-content-center align-items-center w-100 h-100">
+            <span
+              className="text-center"
+              style={{
+                fontSize: '1.1rem',
+                color: '#6c757d',
+                fontWeight: '400',
+              }}
+            >
+              💬 No messages! Start a new conversation...
+            </span>
+          </div>
         )}
       </div>
       <div className="d-flex align-items-center m-1">

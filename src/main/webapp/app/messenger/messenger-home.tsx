@@ -28,6 +28,7 @@ export const Home = () => {
   const [message, setMessage] = useState([]);
   const [visibleChatArea, setVisibleChatArea] = useState(false);
   const [selectedUser, setSelectedUser] = useState('');
+  const [userFullName, setUserFullName] = useState('');
   const [users, setUsers] = useState([]);
 
   const account = useAppSelector(state => state.authentication.account);
@@ -81,6 +82,10 @@ export const Home = () => {
     setVisibleChatArea(true);
   };
 
+  const getUserFullName = fullName => {
+    setUserFullName(fullName);
+  };
+
   const onMessageReceived = payload => {
     const payloadMessage = JSON.parse(payload.body);
     setMessage(payloadMessage);
@@ -102,10 +107,10 @@ export const Home = () => {
     <div className="justify-content-center pt-5 mt-0 vh-100">
       <Row className="m-0 p-0 justify-content-center">
         <Col md="3" className="m-0 p-0 mt-2">
-          <OnlineUsersList onSelectUser={handleUserSelect} users={users} />
+          <OnlineUsersList onSelectUser={handleUserSelect} userFullName={getUserFullName} users={users} />
         </Col>
         <Col md="9" className="m-0 p-0 mt-2">
-          {visibleChatArea && <ChatArea clickedUser={selectedUser} newMessage={message} />}
+          {visibleChatArea && <ChatArea clickedUser={selectedUser} userFullName={userFullName} newMessage={message} />}
         </Col>
       </Row>
     </div>
