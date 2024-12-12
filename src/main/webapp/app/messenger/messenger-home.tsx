@@ -99,17 +99,15 @@ export const Home = () => {
   }
 
   return (
-    <div className="justify-content-center pt-5 vh-90">
-      <div className="vh-100">
-        <Row className="m-0 p-0 justify-content-center">
-          <Col md="3" className="m-0 p-0">
-            <OnlineUsersList onSelectUser={handleUserSelect} users={users} />
-          </Col>
-          <Col md="9" className="m-0 p-0">
-            {visibleChatArea && <ChatArea clickedUser={selectedUser} newMessage={message} />}
-          </Col>
-        </Row>
-      </div>
+    <div className="justify-content-center pt-5 mt-0 vh-100">
+      <Row className="m-0 p-0 justify-content-center">
+        <Col md="3" className="m-0 p-0 mt-2">
+          <OnlineUsersList onSelectUser={handleUserSelect} users={users} />
+        </Col>
+        <Col md="9" className="m-0 p-0 mt-2">
+          {visibleChatArea && <ChatArea clickedUser={selectedUser} newMessage={message} />}
+        </Col>
+      </Row>
     </div>
   );
 };

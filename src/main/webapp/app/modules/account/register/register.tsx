@@ -36,84 +36,85 @@ export const RegisterPage = () => {
   }, [successMessage]);
 
   return (
-    <div className="vh-100">
-      <Row className="justify-content-center pt-2">
-        <Col md="8" className="text-center">
-          <h2 id="register-title" data-cy="registerTitle">
-            Registration
-          </h2>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <ValidatedForm id="register-form" onSubmit={handleValidSubmit}>
-            <ValidatedField
-              name="firstName"
-              label="First Name"
-              placeholder="Your first name"
-              type="text"
-              validate={{
-                required: { value: true, message: 'Your first name is required.' },
-                minLength: { value: 3, message: 'Your first name is required to be at least 3 characters.' },
-                maxLength: { value: 254, message: 'Your first name cannot be longer than 50 characters.' },
-              }}
-              data-cy="firstName"
-            />
-            <ValidatedField
-              name="lastName"
-              label="Last Name"
-              placeholder="Your last name"
-              type="text"
-              validate={{
-                required: { value: true, message: 'Your last name is required.' },
-                minLength: { value: 3, message: 'Your last name is required to be at least 3 characters.' },
-                maxLength: { value: 254, message: 'Your last name cannot be longer than 50 characters.' },
-              }}
-              data-cy="lastName"
-            />
-            <ValidatedField
-              name="email"
-              label="Email"
-              placeholder="Your email"
-              type="email"
-              validate={{
-                required: { value: true, message: 'Your email is required.' },
-                minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
-                validate: v => isEmail(v) || 'Your email is invalid.',
-              }}
-              data-cy="email"
-            />
-            <ValidatedField
-              name="username"
-              label="Username"
-              placeholder="Your username"
-              validate={{
-                required: { value: true, message: 'Your username is required.' },
-                pattern: {
-                  value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
-                  message: 'Your username is invalid.',
-                },
-                minLength: { value: 1, message: 'Your username is required to be at least 1 character.' },
-                maxLength: { value: 50, message: 'Your username cannot be longer than 50 characters.' },
-              }}
-              data-cy="username"
-            />
-            <ValidatedField
-              name="firstPassword"
-              label="Your password"
-              placeholder="Your password"
-              type="password"
-              onChange={updatePassword}
-              validate={{
-                required: { value: true, message: 'Your password is required.' },
-                minLength: { value: 4, message: 'Your password is required to be at least 4 characters.' },
-                maxLength: { value: 50, message: 'Your password cannot be longer than 50 characters.' },
-              }}
-              data-cy="firstPassword"
-            />
-            <PasswordStrengthBar password={password} />
-            {/* <ValidatedField
+    <div className="justify-content-center pt-1 mt-0 vh-100">
+      <Row className="m-0 p-0 justify-content-center">
+        <Row className="justify-content-center pt-1">
+          <Col md="8" className="text-center">
+            <h2 id="register-title" data-cy="registerTitle">
+              Registration
+            </h2>
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Col md="8">
+            <ValidatedForm id="register-form" onSubmit={handleValidSubmit}>
+              <ValidatedField
+                name="firstName"
+                label="First Name"
+                placeholder="Your first name"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Your first name is required.' },
+                  minLength: { value: 3, message: 'Your first name is required to be at least 3 characters.' },
+                  maxLength: { value: 254, message: 'Your first name cannot be longer than 50 characters.' },
+                }}
+                data-cy="firstName"
+              />
+              <ValidatedField
+                name="lastName"
+                label="Last Name"
+                placeholder="Your last name"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Your last name is required.' },
+                  minLength: { value: 3, message: 'Your last name is required to be at least 3 characters.' },
+                  maxLength: { value: 254, message: 'Your last name cannot be longer than 50 characters.' },
+                }}
+                data-cy="lastName"
+              />
+              <ValidatedField
+                name="email"
+                label="Email"
+                placeholder="Your email"
+                type="email"
+                validate={{
+                  required: { value: true, message: 'Your email is required.' },
+                  minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
+                  maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
+                  validate: v => isEmail(v) || 'Your email is invalid.',
+                }}
+                data-cy="email"
+              />
+              <ValidatedField
+                name="username"
+                label="Username"
+                placeholder="Your username"
+                validate={{
+                  required: { value: true, message: 'Your username is required.' },
+                  pattern: {
+                    value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
+                    message: 'Your username is invalid.',
+                  },
+                  minLength: { value: 1, message: 'Your username is required to be at least 1 character.' },
+                  maxLength: { value: 50, message: 'Your username cannot be longer than 50 characters.' },
+                }}
+                data-cy="username"
+              />
+              <ValidatedField
+                name="firstPassword"
+                label="Your password"
+                placeholder="Your password"
+                type="password"
+                onChange={updatePassword}
+                validate={{
+                  required: { value: true, message: 'Your password is required.' },
+                  minLength: { value: 4, message: 'Your password is required to be at least 4 characters.' },
+                  maxLength: { value: 50, message: 'Your password cannot be longer than 50 characters.' },
+                }}
+                data-cy="firstPassword"
+              />
+              <PasswordStrengthBar password={password} />
+              {/* <ValidatedField
               name="secondPassword"
               label="New password confirmation"
               placeholder="Confirm the new password"
@@ -126,11 +127,12 @@ export const RegisterPage = () => {
               }}
               data-cy="secondPassword"
             /> */}
-            <Button id="register-submit" color="primary" type="submit" data-cy="submit">
-              Register
-            </Button>
-          </ValidatedForm>
-        </Col>
+              <Button id="register-submit" color="primary" type="submit" data-cy="submit">
+                Register
+              </Button>
+            </ValidatedForm>
+          </Col>
+        </Row>
       </Row>
     </div>
   );

@@ -51,10 +51,11 @@ const OnlineUsersList = ({ onSelectUser, users }) => {
         Chat Users
       </span>
       <div
-        className="list-group ml-4 overflow-auto"
+        className="list-group ml-4"
         style={{
-          maxHeight: '540px',
+          maxHeight: '542px',
           overflowY: 'auto',
+          overflowX: 'hidden',
         }}
       >
         {onlineUsers.map(user => itemTemplate(user))}

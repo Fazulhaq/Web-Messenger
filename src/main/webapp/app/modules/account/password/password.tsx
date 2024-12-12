@@ -40,62 +40,60 @@ export const PasswordPage = () => {
   }, [successMessage, errorMessage]);
 
   return (
-    <div className="justify-content-center pt-5 vh-90">
-      <div className="vh-100">
+    <div className="justify-content-center pt-5 mt-0 vh-100">
+      <Row className="m-0 p-0 justify-content-center">
         <Row className="justify-content-center">
-          <Row className="justify-content-center">
-            <Col md="8" className="text-center pt-5">
-              <h2 id="password-title">
-                Password for [<strong>{account.login}</strong>]
-              </h2>
-            </Col>
-          </Row>
-          <Col md="8">
-            <ValidatedForm id="password-form" onSubmit={handleValidSubmit}>
-              <ValidatedField
-                name="currentPassword"
-                label="Current password"
-                placeholder="Current password"
-                type="password"
-                validate={{
-                  required: { value: true, message: 'Your password is required.' },
-                }}
-                data-cy="currentPassword"
-              />
-              <ValidatedField
-                name="newPassword"
-                label="New password"
-                placeholder="New password"
-                type="password"
-                validate={{
-                  required: { value: true, message: 'Your password is required.' },
-                  minLength: { value: 4, message: 'Your password is required to be at least 4 characters.' },
-                  maxLength: { value: 50, message: 'Your password cannot be longer than 50 characters.' },
-                }}
-                onChange={updatePassword}
-                data-cy="newPassword"
-              />
-              <PasswordStrengthBar password={password} />
-              <ValidatedField
-                name="confirmPassword"
-                label="New password confirmation"
-                placeholder="Confirm the new password"
-                type="password"
-                validate={{
-                  required: { value: true, message: 'Your confirmation password is required.' },
-                  minLength: { value: 4, message: 'Your confirmation password is required to be at least 4 characters.' },
-                  maxLength: { value: 50, message: 'Your confirmation password cannot be longer than 50 characters.' },
-                  validate: v => v === password || 'The password and its confirmation do not match!',
-                }}
-                data-cy="confirmPassword"
-              />
-              <Button color="success" type="submit" data-cy="submit">
-                Save
-              </Button>
-            </ValidatedForm>
+          <Col md="8" className="text-center pt-5">
+            <h2 id="password-title">
+              Password for [<strong>{account.login}</strong>]
+            </h2>
           </Col>
         </Row>
-      </div>
+        <Col md="8">
+          <ValidatedForm id="password-form" onSubmit={handleValidSubmit}>
+            <ValidatedField
+              name="currentPassword"
+              label="Current password"
+              placeholder="Current password"
+              type="password"
+              validate={{
+                required: { value: true, message: 'Your password is required.' },
+              }}
+              data-cy="currentPassword"
+            />
+            <ValidatedField
+              name="newPassword"
+              label="New password"
+              placeholder="New password"
+              type="password"
+              validate={{
+                required: { value: true, message: 'Your password is required.' },
+                minLength: { value: 4, message: 'Your password is required to be at least 4 characters.' },
+                maxLength: { value: 50, message: 'Your password cannot be longer than 50 characters.' },
+              }}
+              onChange={updatePassword}
+              data-cy="newPassword"
+            />
+            <PasswordStrengthBar password={password} />
+            <ValidatedField
+              name="confirmPassword"
+              label="New password confirmation"
+              placeholder="Confirm the new password"
+              type="password"
+              validate={{
+                required: { value: true, message: 'Your confirmation password is required.' },
+                minLength: { value: 4, message: 'Your confirmation password is required to be at least 4 characters.' },
+                maxLength: { value: 50, message: 'Your confirmation password cannot be longer than 50 characters.' },
+                validate: v => v === password || 'The password and its confirmation do not match!',
+              }}
+              data-cy="confirmPassword"
+            />
+            <Button color="success" type="submit" data-cy="submit">
+              Save
+            </Button>
+          </ValidatedForm>
+        </Col>
+      </Row>
     </div>
   );
 };

@@ -47,8 +47,8 @@ export const UserManagementUpdate = () => {
   const authorities = useAppSelector(state => state.userManagement.authorities);
 
   return (
-    <div className="justify-content-center pt-5 vh-90">
-      <div className="vh-100">
+    <div className="justify-content-center pt-5 mt-0 vh-100">
+      <Row className="m-0 p-0 justify-content-center">
         <Row className="justify-content-center">
           <Col md="8">
             <h1>Create or edit a user</h1>
@@ -61,7 +61,7 @@ export const UserManagementUpdate = () => {
             ) : (
               <ValidatedForm onSubmit={saveUser} defaultValues={user}>
                 {user.id ? <ValidatedField type="text" name="id" required readOnly label="ID" validate={{ required: true }} /> : null}
-                <ValidatedField
+                {/* <ValidatedField
                   type="text"
                   name="login"
                   label="Login"
@@ -83,7 +83,7 @@ export const UserManagementUpdate = () => {
                       message: 'Your username cannot be longer than 50 characters.',
                     },
                   }}
-                />
+                /> */}
                 <ValidatedField
                   type="text"
                   name="firstName"
@@ -150,7 +150,7 @@ export const UserManagementUpdate = () => {
             )}
           </Col>
         </Row>
-      </div>
+      </Row>
     </div>
   );
 };

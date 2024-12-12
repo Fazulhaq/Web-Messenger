@@ -21,8 +21,8 @@ export const UserManagementDetail = () => {
   const user = useAppSelector(state => state.userManagement.user);
 
   return (
-    <div className="justify-content-center pt-5 vh-90">
-      <div className="vh-100">
+    <div className="justify-content-center pt-5 mt-0 vh-100">
+      <Row className="m-0 p-0 justify-content-center">
         <h2>
           User [<strong>{user.login}</strong>]
         </h2>
@@ -68,7 +68,7 @@ export const UserManagementDetail = () => {
         <Button tag={Link} to="/admin/user-management" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
         </Button>
-      </div>
+      </Row>
     </div>
   );
 };

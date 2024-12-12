@@ -114,9 +114,9 @@ export const ChatArea = ({ clickedUser, newMessage }) => {
   };
 
   return (
-    <div className="m-0 p-0">
+    <div>
       <div
-        className="d-flex flex-column p-4 mx-1 my-0"
+        className="d-flex flex-column p-4 m-0 mx-1 my-1"
         ref={chatAreaRef}
         style={{ height: '556px', overflowY: 'auto', border: '1px solid #ccc' }}
       >
@@ -180,7 +180,7 @@ export const ChatArea = ({ clickedUser, newMessage }) => {
           }}
           rows={1}
           cols={100}
-          placeholder="Type a message here"
+          placeholder="Type a message and press Enter"
           className="flex-grow-1 me-2"
         />
         <Button label="Send" className="rounded-pill btn-primary" style={{ width: '120px' }} onClick={sendMessage} />

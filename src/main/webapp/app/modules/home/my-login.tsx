@@ -36,9 +36,9 @@ export const MyLogin = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="w-100">
-        <Row className="justify-content-center align-items-center py-1">
+    <div className="justify-content-center pt-5 mt-0 vh-100">
+      <Row className="m-0 p-0 justify-content-center">
+        <Row className="justify-content-center align-items-center py-1 mt-5">
           <Col md="6" className="text-center">
             <div className="display-6">Welcome to Web Messenger!</div>
           </Col>
@@ -98,7 +98,7 @@ export const MyLogin = () => {
             </Form>
           </Col>
         </Row>
-      </div>
+      </Row>
     </div>
   );
 };

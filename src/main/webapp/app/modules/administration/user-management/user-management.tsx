@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table, Badge } from 'reactstrap';
+import { Button, Table, Badge, Row } from 'reactstrap';
 import { TextFormat, JhiPagination, JhiItemCount, getPaginationState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
@@ -95,8 +95,8 @@ export const UserManagement = () => {
   };
 
   return (
-    <div className="justify-content-center pt-5 vh-80">
-      <div className="vh-100">
+    <div className="justify-content-center pt-5 mt-0 vh-100">
+      <Row className="m-0 p-0 justify-content-center">
         <Table responsive striped>
           <thead>
             <tr>
@@ -197,7 +197,7 @@ export const UserManagement = () => {
         ) : (
           ''
         )}
-      </div>
+      </Row>
     </div>
   );
 };
