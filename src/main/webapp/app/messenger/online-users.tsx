@@ -43,15 +43,8 @@ const OnlineUsersList = ({ onSelectUser, userFullName, users }) => {
           ></span>
         ) : null}
       </div>
-      <div className="d-flex align-items-center ms-auto" style={{ marginRight: '20px' }}>
-        <span
-          className="rounded-circle bg-danger d-flex align-items-center mb-0 ms-3"
-          style={{
-            width: '15px',
-            height: '15px',
-          }}
-          title="message"
-        ></span>
+      <div className="d-flex align-items-center ms-auto" style={{ marginRight: '15px' }}>
+        <Badge value="1" severity="danger"></Badge>
       </div>
     </div>
   );
