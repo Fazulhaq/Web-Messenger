@@ -81,7 +81,7 @@
     "dayjs": "1.11.11",
     "lodash": "4.17.21",
     "path-browserify": "1.0.1",
-    "primeicons": "^7.0.0",
+    "primeicons": "^4.1.0",
     "primereact": "^10.8.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",

@@ -1,9 +1,9 @@
-import 'react-toastify/dist/ReactToastify.css';
+import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
 import './app.scss';
 import 'app/config/dayjs';
+import 'react-toastify/dist/ReactToastify.css';
 
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';

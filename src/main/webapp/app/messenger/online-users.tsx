@@ -1,5 +1,6 @@
 import { useAppSelector } from 'app/config/store';
 import React, { useState } from 'react';
+import { Badge } from 'primereact/badge';
 
 const OnlineUsersList = ({ onSelectUser, userFullName, users }) => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -17,7 +18,7 @@ const OnlineUsersList = ({ onSelectUser, userFullName, users }) => {
   const itemTemplate = user => (
     <div
       key={user.login}
-      className={`d-flex align-items-center p-2 m-1 border-bottom list-group-item-action shadow-sm hover-shadow-lg ${
+      className={`d-flex align-items-center p-2 m-1 pr-3 border-bottom list-group-item-action shadow-sm hover-shadow-lg ${
         selectedUser === user.login ? 'bg-white text-black' : 'bg-light text-black'
       }`}
       onClick={() => handleUserClick(user)}
@@ -27,22 +28,31 @@ const OnlineUsersList = ({ onSelectUser, userFullName, users }) => {
           <img src="../../content/images/user_icon.png" alt={`${user.firstName} ${user.lastName}`} className="img-fluid" />
         </div>
       </div>
-      <div className="flex-grow-1">
-        <h6 className="mb-0">
+      <div className="flex-grow-1 d-flex align-items-center">
+        <h6 className="mb-0 me-2" style={{ fontSize: '1rem' }}>
           {user.firstName} {user.lastName}
         </h6>
+        {user.status === 'ONLINE' ? (
+          <span
+            className="rounded-circle bg-success"
+            style={{
+              width: '15px',
+              height: '15px',
+            }}
+            title="Online"
+          ></span>
+        ) : null}
       </div>
-      {user.status === 'ONLINE' ? (
+      <div className="d-flex align-items-center ms-auto" style={{ marginRight: '20px' }}>
         <span
-          className="rounded-circle bg-success d-inline-block"
+          className="rounded-circle bg-danger d-flex align-items-center mb-0 ms-3"
           style={{
             width: '15px',
             height: '15px',
-            marginLeft: 'auto',
           }}
-          title="Online"
+          title="message"
         ></span>
-      ) : null}
+      </div>
     </div>
   );
 
@@ -54,7 +64,7 @@ const OnlineUsersList = ({ onSelectUser, userFullName, users }) => {
       <div
         className="list-group ml-4"
         style={{
-          maxHeight: '568px',
+          maxHeight: '545px',
           overflowY: 'auto',
           overflowX: 'hidden',
         }}

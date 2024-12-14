@@ -129,7 +129,7 @@ export const ChatArea = ({ clickedUser, userFullName, newMessage }) => {
       <div
         className="d-flex flex-column p-0 m-0 mx-1 my-1"
         ref={chatAreaRef}
-        style={{ backgroundColor: '#f9f9f9', height: '535px', overflowY: 'auto', border: '1px solid #ccc' }}
+        style={{ backgroundColor: '#f9f9f9', height: '510px', overflowY: 'auto', border: '1px solid #ccc' }}
       >
         {messages.length > 0 ? (
           <div className="p-4 w-100 d-flex flex-column">
