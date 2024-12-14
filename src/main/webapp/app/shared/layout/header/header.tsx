@@ -28,9 +28,16 @@ const Header = (props: IHeaderProps) => {
       <LoadingBar className="loading-bar" />
       <Navbar data-cy="navbar" light expand="md" fixed="top" style={{ backgroundColor: '#FEFFFF' }}>
         {props.isAuthenticated && (
-          <span className="w-100 text-black ms-2" style={{ fontSize: '1.35rem', fontWeight: 'bold' }}>
-            {account.firstName} {account.lastName}
-          </span>
+          <div className="d-flex align-items-center justify-content-center m-0 p-0">
+            <div className="flex-shrink-0 me-1">
+              <div className="rounded-circle overflow-hidden" style={{ width: '45px', height: '45px' }}>
+                <img src="../../content/images/user_icon.png" alt={`${account.firstName} ${account.lastName}`} className="img-fluid" />
+              </div>
+            </div>
+            <span className="w-100 text-black ms-1" style={{ fontSize: '1.35rem', fontWeight: 'bold' }}>
+              {account.firstName} {account.lastName}
+            </span>
+          </div>
         )}
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Collapse isOpen={menuOpen} navbar>
