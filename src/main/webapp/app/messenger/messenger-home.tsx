@@ -110,7 +110,27 @@ export const Home = () => {
           <OnlineUsersList onSelectUser={handleUserSelect} userFullName={getUserFullName} users={users} />
         </Col>
         <Col md="9" className="m-0 p-0 mt-2">
-          {visibleChatArea && <ChatArea clickedUser={selectedUser} userFullName={userFullName} newMessage={message} />}
+          {visibleChatArea ? (
+            <ChatArea clickedUser={selectedUser} userFullName={userFullName} newMessage={message} />
+          ) : (
+            <div className="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+              <div className="overflow-hidden mb-4" style={{ width: '45px', height: '45px' }}>
+                <img src="../../content/images/favicon.ico" alt="favicon" className="img-fluid" />
+              </div>
+              <h5 className="d-block mb-2">Web Messenger for Private Chats</h5>
+              <span
+                className="text-center d-block"
+                style={{
+                  fontSize: '1.1rem',
+                  color: '#6c757d',
+                  fontWeight: '250',
+                }}
+              >
+                Experience secure and seamless communication with our real-time chat platform, <br />
+                designed for private and instant messaging, anytime and anywhere.
+              </span>
+            </div>
+          )}
         </Col>
       </Row>
     </div>
